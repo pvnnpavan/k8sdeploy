@@ -15,8 +15,8 @@ metadata:
   
 spec:
   rules:
-  - host: ohiopssbxkub001.sapiens.int
-    http:
+  - host: k8stest.sdspns-tst.net
+  - http:
       paths:
       - path: /
         pathType: Prefix
@@ -25,13 +25,6 @@ spec:
             name: nginx-service
             port:
               number: 80
-      - path: /dashboard
-        pathType: Prefix
-        backend:
-          service:
-            name: webhook-service
-            port:
-              number: 443
       - path: /AdaptikAuthority
         pathType: Prefix
         backend:
