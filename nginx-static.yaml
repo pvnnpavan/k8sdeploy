@@ -16,7 +16,7 @@ metadata:
 spec:
   rules:
   - host: k8stest.sdspns-tst.net
-  - http:
+    http:
       paths:
       - path: /
         pathType: Prefix
