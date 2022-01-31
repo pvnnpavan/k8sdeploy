@@ -15,7 +15,7 @@ metadata:
 spec:
   rules:
   - host: k8stest.sdspns-tst.net
-    https:
+    http:
       - path: /dashboard
         pathType: Prefix
         backend:
