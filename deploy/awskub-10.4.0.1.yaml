@@ -96,9 +96,9 @@ spec:
             name: ath-secrets
         resources:
           requests:
-            memory: "5Gi"
+            memory: "3Gi"
           limits:
-            memory: "5Gi"
+            memory: "4Gi"
         volumeMounts:
         - mountPath: /app/logs/app/Authority
           name: authority-logs
@@ -161,9 +161,9 @@ spec:
             name: pol-secrets
         resources:
           requests:
-            memory: "5Gi"
+            memory: "3Gi"
           limits:
-            memory: "5Gi"
+            memory: "4Gi"
         volumeMounts:
         - mountPath: /app/logs/app/Policy
           name: policy-logs
@@ -276,9 +276,9 @@ spec:
             name: bil-secrets
         resources:
           requests:
-            memory: "5Gi"
+            memory: "3Gi"
           limits:
-            memory: "5Gi"
+            memory: "4Gi"
         volumeMounts:
         - mountPath: /app/logs/app/Billing
           name: billing-logs
@@ -341,9 +341,9 @@ spec:
             name: prd-secrets
         resources:
           requests:
-            memory: "5Gi"
+            memory: "3Gi"
           limits:
-            memory: "5Gi"
+            memory: "4Gi"
         volumeMounts:
         - mountPath: /app/logs/app/Producer
           name: producer-logs
