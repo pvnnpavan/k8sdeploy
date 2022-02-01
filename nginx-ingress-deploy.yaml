@@ -277,7 +277,7 @@ spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
   externalIPs:
-  - 10.42.10.123
+  - 10.42.10.123 
   ipFamilyPolicy: SingleStack
   ipFamilies:
     - IPv4

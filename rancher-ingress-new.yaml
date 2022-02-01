@@ -29,7 +29,4 @@ spec:
     - localhost
     secretName: tls-rancher-ingress
 status:
-  loadBalancer:
-    ingress:
-    - ip: 10.42.10.123 
-      
+  loadBalancer: {}
