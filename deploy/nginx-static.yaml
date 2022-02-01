@@ -11,6 +11,10 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600s"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "900"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "900"
   
 spec:
   rules:
