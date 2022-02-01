@@ -80,7 +80,7 @@ spec:
         emptyDir: {}
       containers:
       - name: sdk8s-ath-am
-        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-ath-am:7dbd7878
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-ath-am:10.4.0.1-latest
         ports:
         - containerPort: 8080
         envFrom:
@@ -145,7 +145,7 @@ spec:
       
       containers:
       - name: sdk8s-pol-am
-        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-pol-am:7dbd7878
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-pol-am:10.4.0.1-latest
         ports:
         - containerPort: 8080
         envFrom:
@@ -192,7 +192,7 @@ spec:
       
       containers:
       - name: sdk8s-pol-wm
-        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-pol-wm:7dbd7878
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-pol-wm:10.4.0.1-latest
         ports:
         - containerPort: 8080
         envFrom:
@@ -260,7 +260,7 @@ spec:
       
       containers:
       - name: sdk8s-bil-am
-        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-bil-am:7dbd7878
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-bil-am:10.4.0.1-latest
         ports:
         - containerPort: 8080
         envFrom:
@@ -325,7 +325,7 @@ spec:
       
       containers:
       - name: sdk8s-prd-am
-        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-prd-am:7dbd7878
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-prd-am:10.4.0.1-latest
         ports:
         - containerPort: 8080
         envFrom:
