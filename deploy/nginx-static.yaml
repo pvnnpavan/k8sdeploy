@@ -45,6 +45,20 @@ spec:
             name: sdk8s-bil-am
             port:
               number: 8080
+      - path: /AdaptikWork
+            pathType: Prefix
+            backend:
+              service:
+                name: sdk8s-pol-wm
+                port: 
+                  number: 8080
+      - path: /AdaptikProducer
+            pathType: Prefix
+            backend:
+              service:
+                name: sdk8s-prd-am
+                port: 
+                  number: 8080
 
 ---
 

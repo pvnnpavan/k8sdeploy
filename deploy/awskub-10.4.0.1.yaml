@@ -1,0 +1,482 @@
+# Base config for CoreSuite runtimes
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: base-config
+data:
+  CRS_JBOSS_MAX_HEAP: 3G
+  CRS_JBOSS_MIN_HEAP: 1G
+  CRS_EXTERNAL_URL: https://sdk8s.sdspns-tst.net
+  CRS_SSO_COOKIE: SSO_AUTH_SDK8S
+  CRS_ATH_INTERNAL: sdk8s-ath-am:8080
+  CRS_POL_INTERNAL: sdk8s-pol-am:8080
+  CRS_WRK_INTERNAL: sdk8s-pol-wm:8080
+  CRS_BIL_INTERNAL: sdk8s-bil-am:8080
+  CRS_PRD_INTERNAL: sdk8s-prd-am:8080
+---
+# Base secrtets for CoreSuite runtimes
+apiVersion: v1
+kind: Secret
+metadata:
+  name: base-secrets
+data:
+  CRS_CRYPTO_AES: QUJDREVGR0hJSktMTTEyMw==
+  CRS_SSO_PASSWORD: R1RiY3prZjZ6dU4=
+  CRS_SSO_USERNAME: c3NvVXNlcg==
+  CRS_WS_PASSWORD: dzF6WnJ0bWNn
+  CRS_WS_USERNAME: VXNlcg==
+---
+# Email server information for CoreSuite runtimes
+apiVersion: v1
+kind: Secret
+metadata:
+  name: email
+data:
+  CRS_MAIL_FROM: YWRhcHRpay5hZG1pbkBzYXBpZW5zLmNvbQ==
+  CRS_MAIL_PORT: NTg3
+  CRS_MAIL_RETURN: YWRhcHRpay5hZG1pbkBzYXBpZW5zLmNvbQ==
+  CRS_MAIL_SERVER: ZW1haWwtc210cC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbQ==
+  CRS_MAIL_PASSWORD: QkNiY0lQaWtjVTQvd2NFMVRkNi9TZFF3U3BadUNadVd5anNibE4wZm1ONVM=
+  CRS_MAIL_USERNAME: QUtJQVRVRVJMQkQ0UFlMWUhSVTc=
+---
+# CoreSuite AuthorityPro runtime config
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ath-config
+data:
+  CRS_ATH_PROPSET: custom
+  CRS_ATH_ENVCODE: DEV
+---
+# CoreSuite AuthorityPro runtime secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ath-secrets
+data:
+  CRS_ATH_DB_PASSWORD: bw==
+  CRS_ATH_DB_TNS: c2RrOHMuY3k2ajR3dHkxYWFhLnVzLWVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbToxNTIxL3Nkazhz
+  CRS_ATH_DB_USERNAME: T0hJRk5ETVRSQVRIMDAy
+---
+# CoreSuite AuthorityPro Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sdk8s-ath-am
+  name: sdk8s-ath-am
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sdk8s-ath-am
+  template:
+    metadata:
+      labels:
+        app: sdk8s-ath-am
+    spec:
+      volumes:
+      - name: authority-logs
+        emptyDir: {}
+      containers:
+      - name: sdk8s-ath-am
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-ath-am:7dbd7878
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: base-config
+        - secretRef:
+            name: base-secrets
+        - secretRef:
+            name: email
+        - configMapRef:
+            name: ath-config
+        - secretRef:
+            name: ath-secrets
+        resources:
+          requests:
+            memory: "5Gi"
+          limits:
+            memory: "5Gi"
+        volumeMounts:
+        - mountPath: /app/logs/app/Authority
+          name: authority-logs
+      
+---
+# CoreSuite PolicyPro runtime config
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pol-config
+data:
+  CRS_POL_PROPSET: custom
+---
+# CoreSuite PolicyPro runtime secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pol-secrets
+data:
+  CRS_POL_DB_PASSWORD: bw==
+  CRS_POL_DB_TNS: c2RrOHMuY3k2ajR3dHkxYWFhLnVzLWVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbToxNTIxL3Nkazhz
+  CRS_POL_DB_USERNAME: T0hJRk5ETVRSUE9MMDAy
+---
+# CoreSuite PolicyPro Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sdk8s-pol-am
+  name: sdk8s-pol-am
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sdk8s-pol-am
+  template:
+    metadata:
+      labels:
+        app: sdk8s-pol-am
+    spec:
+      volumes:
+      - name: policy-logs
+        emptyDir: {}
+      
+      containers:
+      - name: sdk8s-pol-am
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-pol-am:7dbd7878
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: base-config
+        - secretRef:
+            name: base-secrets
+        - secretRef:
+            name: email
+        - configMapRef:
+            name: pol-config
+        - secretRef:
+            name: pol-secrets
+        resources:
+          requests:
+            memory: "5Gi"
+          limits:
+            memory: "5Gi"
+        volumeMounts:
+        - mountPath: /app/logs/app/Policy
+          name: policy-logs
+      
+---
+# CoreSuite PolicyPro WorkManagerPro Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sdk8s-pol-wm
+  name: sdk8s-pol-wm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sdk8s-pol-wm
+  template:
+    metadata:
+      labels:
+        app: sdk8s-pol-wm
+    spec:
+      volumes:
+      - name: workmanager-logs
+        emptyDir: {}
+      
+      containers:
+      - name: sdk8s-pol-wm
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-pol-wm:7dbd7878
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: base-config
+        - secretRef:
+            name: base-secrets
+        - secretRef:
+            name: email
+        - configMapRef:
+            name: pol-config
+        - secretRef:
+            name: pol-secrets
+        env:
+          - name: CRS_JBOSS_MAX_HEAP
+            value: 2G
+        resources:
+          requests:
+            memory: "3Gi"
+          limits:
+            memory: "3Gi"
+        volumeMounts:
+        - mountPath: /app/logs/app/Policy
+          name: workmanager-logs
+      
+---
+# CoreSuite BillingPro runtime config
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bil-config
+data:
+  CRS_BIL_PROPSET: custom
+---
+# CoreSuite BillingPro runtime secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bil-secrets
+data:
+  CRS_BIL_DB_PASSWORD: bw==
+  CRS_BIL_DB_TNS: c2RrOHMuY3k2ajR3dHkxYWFhLnVzLWVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbToxNTIxL3Nkazhz
+  CRS_BIL_DB_USERNAME: T0hJRk5ETVRSQklMMDAy
+---
+# CoreSuite BillingPro Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sdk8s-bil-am
+  name: sdk8s-bil-am
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sdk8s-bil-am
+  template:
+    metadata:
+      labels:
+        app: sdk8s-bil-am
+    spec:
+      volumes:
+      - name: billing-logs
+        emptyDir: {}
+      
+      containers:
+      - name: sdk8s-bil-am
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-bil-am:7dbd7878
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: base-config
+        - secretRef:
+            name: base-secrets
+        - secretRef:
+            name: email
+        - configMapRef:
+            name: bil-config
+        - secretRef:
+            name: bil-secrets
+        resources:
+          requests:
+            memory: "5Gi"
+          limits:
+            memory: "5Gi"
+        volumeMounts:
+        - mountPath: /app/logs/app/Billing
+          name: billing-logs
+      
+---
+# CoreSuite ProducerPro runtime config
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prd-config
+data:
+  CRS_PRD_PROPSET: custom
+---
+# CoreSuite ProducerPro runtime secrets
+apiVersion: v1
+kind: Secret
+metadata:
+  name: prd-secrets
+data:
+  CRS_PRD_DB_PASSWORD: bw==
+  CRS_PRD_DB_TNS: c2RrOHMuY3k2ajR3dHkxYWFhLnVzLWVhc3QtMS5yZHMuYW1hem9uYXdzLmNvbToxNTIxL3Nkazhz
+  CRS_PRD_DB_USERNAME: T0hJRk5ETVRSUFJEMDAy
+---
+# CoreSuite ProducerPro Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sdk8s-prd-am
+  name: sdk8s-prd-am
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sdk8s-prd-am
+  template:
+    metadata:
+      labels:
+        app: sdk8s-prd-am
+    spec:
+      volumes:
+      - name: producer-logs
+        emptyDir: {}
+      
+      containers:
+      - name: sdk8s-prd-am
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-prd-am:7dbd7878
+        ports:
+        - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: base-config
+        - secretRef:
+            name: base-secrets
+        - secretRef:
+            name: email
+        - configMapRef:
+            name: prd-config
+        - secretRef:
+            name: prd-secrets
+        resources:
+          requests:
+            memory: "5Gi"
+          limits:
+            memory: "5Gi"
+        volumeMounts:
+        - mountPath: /app/logs/app/Producer
+          name: producer-logs
+      
+---
+# CoreSuite AuthorityPro Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: sdk8s-ath-am
+  labels:
+    app: sdk8s-ath-am
+spec:
+  selector:
+    app: sdk8s-ath-am
+  type: NodePort
+  sessionAffinity: ClientIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31002
+---
+# CoreSuite PolicyPro Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: sdk8s-pol-am
+  labels:
+    app: sdk8s-pol-am
+spec:
+  selector:
+    app: sdk8s-pol-am
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31000
+---
+# CoreSuite PolicyPro WorkManager Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: sdk8s-pol-wm
+  labels:
+    app: sdk8s-pol-wm
+spec:
+  selector:
+    app: sdk8s-pol-wm
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31007
+---
+# CoreSuite BillingPro Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: sdk8s-bil-am
+  labels:
+    app: sdk8s-bil-am
+spec:
+  selector:
+    app: sdk8s-bil-am
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31001
+---
+# CoreSuite ProducerPro Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: sdk8s-prd-am
+  labels:
+    app: sdk8s-prd-am
+spec:
+  selector:
+    app: sdk8s-prd-am
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 31003
+---
+
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /AdaptikAuthority
+            pathType: Prefix
+            backend:
+              service:
+                name: sdk8s-ath-am
+                port: 
+                  number: 8080
+          - path: /AdaptikPolicy
+            pathType: Prefix
+            backend:
+              service:
+                name: sdk8s-pol-am
+                port: 
+                  number: 8080
+          - path: /AdaptikWork
+            pathType: Prefix
+            backend:
+              service:
+                name: sdk8s-pol-wm
+                port: 
+                  number: 8080
+          - path: /AdaptikBilling
+            pathType: Prefix
+            backend:
+              service:
+                name: sdk8s-bil-am
+                port: 
+                  number: 8080
+          - path: /AdaptikProducer
+            pathType: Prefix
+            backend:
+              service:
+                name: sdk8s-prd-am
+                port: 
+                  number: 8080
