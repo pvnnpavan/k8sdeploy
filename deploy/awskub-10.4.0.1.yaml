@@ -130,7 +130,7 @@ metadata:
     app: sdk8s-pol-am
   name: sdk8s-pol-am
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: sdk8s-pol-am
@@ -177,7 +177,7 @@ metadata:
     app: sdk8s-pol-wm
   name: sdk8s-pol-wm
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: sdk8s-pol-wm
