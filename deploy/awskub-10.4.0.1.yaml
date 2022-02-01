@@ -66,7 +66,7 @@ metadata:
     app: sdk8s-ath-am
   name: sdk8s-ath-am
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: sdk8s-ath-am
@@ -96,9 +96,9 @@ spec:
             name: ath-secrets
         resources:
           requests:
-            memory: "3Gi"
+            memory: "2Gi"
           limits:
-            memory: "4Gi"
+            memory: "3Gi"
         volumeMounts:
         - mountPath: /app/logs/app/Authority
           name: authority-logs
@@ -161,9 +161,9 @@ spec:
             name: pol-secrets
         resources:
           requests:
-            memory: "3Gi"
+            memory: "2Gi"
           limits:
-            memory: "4Gi"
+            memory: "3Gi"
         volumeMounts:
         - mountPath: /app/logs/app/Policy
           name: policy-logs
@@ -177,7 +177,7 @@ metadata:
     app: sdk8s-pol-wm
   name: sdk8s-pol-wm
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: sdk8s-pol-wm
@@ -211,7 +211,7 @@ spec:
             value: 2G
         resources:
           requests:
-            memory: "3Gi"
+            memory: "2Gi"
           limits:
             memory: "3Gi"
         volumeMounts:
@@ -245,7 +245,7 @@ metadata:
     app: sdk8s-bil-am
   name: sdk8s-bil-am
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: sdk8s-bil-am
@@ -276,9 +276,9 @@ spec:
             name: bil-secrets
         resources:
           requests:
-            memory: "3Gi"
+            memory: "2Gi"
           limits:
-            memory: "4Gi"
+            memory: "3Gi"
         volumeMounts:
         - mountPath: /app/logs/app/Billing
           name: billing-logs
@@ -341,9 +341,9 @@ spec:
             name: prd-secrets
         resources:
           requests:
-            memory: "3Gi"
+            memory: "2Gi"
           limits:
-            memory: "4Gi"
+            memory: "3Gi"
         volumeMounts:
         - mountPath: /app/logs/app/Producer
           name: producer-logs
