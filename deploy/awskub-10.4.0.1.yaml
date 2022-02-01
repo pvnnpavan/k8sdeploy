@@ -6,7 +6,7 @@ metadata:
 data:
   CRS_JBOSS_MAX_HEAP: 3G
   CRS_JBOSS_MIN_HEAP: 1G
-  CRS_EXTERNAL_URL: https://sdk8s.sdspns-tst.net
+  CRS_EXTERNAL_URL: http://k8stest.sdspns-tst.net
   CRS_SSO_COOKIE: SSO_AUTH_SDK8S
   CRS_ATH_INTERNAL: sdk8s-ath-am:8080
   CRS_POL_INTERNAL: sdk8s-pol-am:8080
