@@ -83,7 +83,7 @@ spec:
           name: fluentbit-config-adaptik
       containers:
       - name: sdk8s-ath-am
-        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-ath-am:10.4.0.0-latest
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-ath-am:10.4.0.1-latest
         ports:
         - containerPort: 8080
         envFrom:
@@ -207,7 +207,7 @@ spec:
           name: fluentbit-config-adaptik
       containers:
       - name: sdk8s-pol-am
-        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-pol-am:10.4.0.0-latest
+        image: 379922354723.dkr.ecr.us-east-1.amazonaws.com/sdk8s-pol-am:10.4.0.1-latest
         ports:
         - containerPort: 8080
         envFrom:
